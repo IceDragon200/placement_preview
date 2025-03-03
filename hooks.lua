@@ -207,14 +207,20 @@ minetest.register_on_placenode(on_placenode)
 local tick = 0.0
 local TICK_RATE = 1 / 30
 
-minetest.register_globalstep(function(dtime)
+local function on_step(dtime)
   tick = tick + dtime
   mod.PlayerService:perform_raycast(dtime)
   if tick >= TICK_RATE then
     mod.PlayerService:update(dtime)
     tick = tick - TICK_RATE
   end
-end)
+end
+
+if nokore_proxy then
+  nokore_proxy.register_globalstep("placement_preview:on_step", on_step)
+else
+  minetest.register_globalstep(on_step)
+end
 
 minetest.register_on_leaveplayer(function(obj, timed_out)
   --remove the object when the player leaves
