@@ -76,8 +76,6 @@ function mod.PlayerService:update(dt)
         end
       end
 
-      p.ghost_object_params.t = t
-
       local new_size = {
         x = size.x + amount * dt,
         y = size.y + amount * dt,
