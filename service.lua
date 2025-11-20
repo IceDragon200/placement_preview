@@ -144,26 +144,26 @@ function mod.PlayerService:perform_raycast(dt)
         -- core.log("gamemode: "..player_gamemode)
         if core.get_modpath("mcl_meshhand") and mcl_meshhand then
           if player_gamemode == "creative" then
-            player_reach_distance = tonumber(minetest.settings:get("mcl_hand_range_creative")) or 9.5
+            player_reach_distance = tonumber(core.settings:get("mcl_hand_range_creative")) or 9.5
           else
-            player_reach_distance = tonumber(minetest.settings:get("mcl_hand_range")) or 3.5
+            player_reach_distance = tonumber(core.settings:get("mcl_hand_range")) or 3.5
           end
 
         end
       end
       local new_pos = p:get_look_dir():multiply(player_reach_distance):add(player_pos)
-      local raycast_result = minetest.raycast(player_pos, new_pos, false, false):next()
+      local raycast_result = core.raycast(player_pos, new_pos, false, false):next()
 
       if raycast_result then
         local hit_pos = raycast_result.above
         local under = raycast_result.under
         local point = raycast_result.intersection_point
-        -- local pointed_node = minetest.registered_nodes[minetest.get_node(under).name]
-        local pointed_node = minetest.get_node(under)
+        -- local pointed_node = core.registered_nodes[core.get_node(under).name]
+        local pointed_node = core.get_node(under)
         -- local pointed_face = raycast_result.intersection_normal
         if hit_pos ~= nil then
           if p_data.ghost_object == nil then
-            p_data.ghost_object = minetest.add_entity(hit_pos, mod.ghost_object_name)
+            p_data.ghost_object = core.add_entity(hit_pos, mod.ghost_object_name)
           end
           p_data.ghost_object:set_properties({ visual = "item" })
 
